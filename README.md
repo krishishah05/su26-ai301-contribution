@@ -1,17 +1,17 @@
-# Contribution 1: Write tests for >12 moon apprentices
+# Contribution 1: Fix wrong time complexity in Lasers and Mirrors solution
 
 **Contribution Number:** 1
 **Student:** Krishi Shah
-**Issue:** [ClanGenOfficial/clangen#3388 - [CODE] Write tests for >12 moon apprentices](https://github.com/ClanGenOfficial/clangen/issues/3388)
+**Issue:** [cpinitiative/usaco-guide#6058 - Contact Form Submission - Mistake (Solution: USACO Gold 2016 December - Lasers and Mirrors)](https://github.com/cpinitiative/usaco-guide/issues/6058)
 **Status:** Phase I Complete
 
 ---
 
 ## Why I Chose This Issue
 
-I chose this issue because it targets a specific, documented weak point in the codebase: adult apprentices (cats that are over 12 moons old and still apprentices) have historically caused recurring bugs, especially around mate-related logic. The maintainer explicitly flagged this area as needing test coverage, which means my contribution directly reduces the chance of future regressions. Writing targeted tests is a concrete, bounded task with clear acceptance criteria, and I can make real progress on it within the first week of Phase II.
+I chose this issue because it is a clearly scoped content fix: a user reported that the time complexity listed in the Lasers and Mirrors solution page is incorrect, and linked to a forum thread confirming the mistake. The fix involves editing a single MDX file to correct the stated complexity, which makes it easy to verify and straightforward to submit. USACO Guide is a widely used resource for competitive programming students, so even a small correction has real impact on people learning from it.
 
-I also chose it because I want to build stronger habits around test-driven thinking in Python projects. Clangen is a well-organized Python codebase with an active contributor community, and the issue gives me a chance to read through the cat lifecycle logic, understand how game state is structured, and write tests that actually reflect real edge cases. The issue is labeled good first issue, has no prior claims, and the maintainer's description gives enough context to get started without needing additional guidance.
+I also wanted to start with something where I could focus on learning the contribution workflow rather than getting blocked on a complex codebase. This issue gives me a clean first PR to point to, and the project has an active maintainer community and clear setup docs, so I know I can get help if anything comes up.
 
 ---
 
@@ -19,19 +19,19 @@ I also chose it because I want to build stronger habits around test-driven think
 
 ### Problem Description
 
-The codebase currently lacks test coverage for apprentices that are older than 12 moons. This age range is a known source of bugs, particularly in logic involving mates and relationship handling. Without tests, regressions in this area are hard to catch before they reach users.
+The time complexity displayed on the Lasers and Mirrors solution page is incorrect. A user flagged it via the contact form and linked to a USACO Guide forum thread with more details confirming the error.
 
 ### Expected Behavior
 
-Tests should verify that cats older than 12 moons who are still apprentices are handled correctly by the relevant game logic, especially code paths involving mates.
+The solution page should display the correct time complexity for the algorithm.
 
 ### Current Behavior
 
-No tests exist for this edge case, so bugs in adult apprentice handling can go undetected until they surface in gameplay.
+The solution page shows an incorrect time complexity value.
 
 ### Affected Components
 
-The test suite and any Python modules handling apprentice age checks and mate logic.
+A single MDX solution file in the usaco-guide content directory for the Lasers and Mirrors problem.
 
 ---
 
