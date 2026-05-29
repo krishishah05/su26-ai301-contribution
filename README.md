@@ -1,17 +1,17 @@
-# Contribution 1: "Undefined" displayed as metric value for custom-labeled metrics in dashboard table view
+# Contribution 1: Move public encoder/decoder helpers to end of custom_types.py
 
 **Contribution Number:** 1
 **Student:** Krishi Shah
-**Issue:** [apache/superset#40432 — "Undefined" is displayed as the metric value for custom-labeled metrics when using the "View as Table" option from a chart in the dashboard view](https://github.com/apache/superset/issues/40432)
+**Issue:** [LMCache/LMCache#3459 - cleanup: move public encoder/decoder helpers to end of lmcache/v1/multiprocess/custom_types.py](https://github.com/LMCache/LMCache/issues/3459)
 **Status:** Phase I Complete
 
 ---
 
 ## Why I Chose This Issue
 
-I chose this issue because it is a clearly scoped, reproducible frontend bug with a specific trigger condition — custom-labeled metrics rendering as "Undefined" in the dashboard's table view. I've worked with React and JavaScript before, and Apache Superset is a widely used open-source data visualization platform, so a fix here would have real impact on users who depend on accurate data displays in their dashboards. The issue was filed just days ago, has no open pull request, and no assignee, which means I can move on it right away without stepping on anyone's work.
+I chose this issue because it has a clearly defined scope with explicit instructions: move three specific code blocks to the end of a single file and verify nothing breaks. LMCache is a production-grade KV cache layer for large language models with over 8,000 GitHub stars and active daily commits, so a contribution here is meaningful and will be reviewed by engineers working on real AI infrastructure. The issue is labeled "onboarding-2026" specifically for new contributors, and the task involves understanding how Python modules are organized, which is a skill I want to sharpen.
 
-I'm also drawn to it because I want to build stronger intuition for how large-scale React codebases handle data flow between chart configuration and view modes. Understanding why a label that exists in chart edit mode fails to propagate through to the "View as Table" rendering will teach me how Superset's plugin architecture wires together chart metadata, and that knowledge will carry forward to future contributions in the same codebase.
+I also chose it because the fix teaches something real: understanding why code layout matters in a file with public vs. internal symbols. Cleaning up the separation between type definitions and public helpers is the kind of detail that makes a codebase more maintainable, and I want to learn to think at that level. The project has a CONTRIBUTING guide, active maintainer engagement, and clear CI checks, so I can get feedback on my PR without being blocked.
 
 ---
 
