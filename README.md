@@ -107,11 +107,11 @@ Using UMPIRE framework (adapted):
 
 ## Implementation Notes
 
-### Week 1 Progress
+### Week [X] Progress
 
 [What you built this week, challenges faced, decisions made]
 
-### Week 2 Progress
+### Week [Y] Progress
 
 [Continue documenting as you work]
 
