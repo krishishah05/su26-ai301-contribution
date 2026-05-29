@@ -19,19 +19,19 @@ I also chose it because the fix teaches something real: understanding why code l
 
 ### Problem Description
 
-[In your own words, what's broken or missing?]
+In `lmcache/v1/multiprocess/custom_types.py`, two public functions (`get_customized_encoder` and `get_customized_decoder`) and the `_CUSTOMERIZED_SERIALIZERS` registry dict they depend on are placed in the middle of the file, between dataclass definitions. This breaks the logical flow of the file: readers expect all type/dataclass definitions to be grouped together, and the public helper functions to be easy to find at the end. Nothing is broken at runtime, but the layout makes the file harder to read and maintain.
 
 ### Expected Behavior
 
-[What should happen?]
+The file should have all dataclass and type definitions grouped together near the top, followed by the `_CUSTOMERIZED_SERIALIZERS` registry dict and the two public functions (`get_customized_encoder`, `get_customized_decoder`) at the very end of the file, in that order.
 
 ### Current Behavior
 
-[What actually happens?]
+The `_CUSTOMERIZED_SERIALIZERS` dict and the two public functions sit in the middle of the file at roughly lines 349-377, splitting the dataclass definitions into two separate groups.
 
 ### Affected Components
 
-[Which parts of the codebase are involved?]
+Single file: `lmcache/v1/multiprocess/custom_types.py`
 
 ---
 
