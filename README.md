@@ -1,17 +1,17 @@
-# Contribution 1: Move public encoder/decoder helpers to end of custom_types.py
+# Contribution 1: Write tests for >12 moon apprentices
 
 **Contribution Number:** 1
 **Student:** Krishi Shah
-**Issue:** [LMCache/LMCache#3459 - cleanup: move public encoder/decoder helpers to end of lmcache/v1/multiprocess/custom_types.py](https://github.com/LMCache/LMCache/issues/3459)
+**Issue:** [ClanGenOfficial/clangen#3388 - [CODE] Write tests for >12 moon apprentices](https://github.com/ClanGenOfficial/clangen/issues/3388)
 **Status:** Phase I Complete
 
 ---
 
 ## Why I Chose This Issue
 
-I chose this issue because it has a clearly defined scope with explicit instructions: move three specific code blocks to the end of a single file and verify nothing breaks. LMCache is a production-grade KV cache layer for large language models with over 8,000 GitHub stars and active daily commits, so a contribution here is meaningful and will be reviewed by engineers working on real AI infrastructure. The issue is labeled "onboarding-2026" specifically for new contributors, and the task involves understanding how Python modules are organized, which is a skill I want to sharpen.
+I chose this issue because it targets a specific, documented weak point in the codebase: adult apprentices (cats that are over 12 moons old and still apprentices) have historically caused recurring bugs, especially around mate-related logic. The maintainer explicitly flagged this area as needing test coverage, which means my contribution directly reduces the chance of future regressions. Writing targeted tests is a concrete, bounded task with clear acceptance criteria, and I can make real progress on it within the first week of Phase II.
 
-I also chose it because the fix teaches something real: understanding why code layout matters in a file with public vs. internal symbols. Cleaning up the separation between type definitions and public helpers is the kind of detail that makes a codebase more maintainable, and I want to learn to think at that level. The project has a CONTRIBUTING guide, active maintainer engagement, and clear CI checks, so I can get feedback on my PR without being blocked.
+I also chose it because I want to build stronger habits around test-driven thinking in Python projects. Clangen is a well-organized Python codebase with an active contributor community, and the issue gives me a chance to read through the cat lifecycle logic, understand how game state is structured, and write tests that actually reflect real edge cases. The issue is labeled good first issue, has no prior claims, and the maintainer's description gives enough context to get started without needing additional guidance.
 
 ---
 
@@ -19,19 +19,19 @@ I also chose it because the fix teaches something real: understanding why code l
 
 ### Problem Description
 
-In `lmcache/v1/multiprocess/custom_types.py`, two public functions (`get_customized_encoder` and `get_customized_decoder`) and the `_CUSTOMERIZED_SERIALIZERS` registry dict they depend on are placed in the middle of the file, between dataclass definitions. This breaks the logical flow of the file: readers expect all type/dataclass definitions to be grouped together, and the public helper functions to be easy to find at the end. Nothing is broken at runtime, but the layout makes the file harder to read and maintain.
+The codebase currently lacks test coverage for apprentices that are older than 12 moons. This age range is a known source of bugs, particularly in logic involving mates and relationship handling. Without tests, regressions in this area are hard to catch before they reach users.
 
 ### Expected Behavior
 
-The file should have all dataclass and type definitions grouped together near the top, followed by the `_CUSTOMERIZED_SERIALIZERS` registry dict and the two public functions (`get_customized_encoder`, `get_customized_decoder`) at the very end of the file, in that order.
+Tests should verify that cats older than 12 moons who are still apprentices are handled correctly by the relevant game logic, especially code paths involving mates.
 
 ### Current Behavior
 
-The `_CUSTOMERIZED_SERIALIZERS` dict and the two public functions sit in the middle of the file at roughly lines 349-377, splitting the dataclass definitions into two separate groups.
+No tests exist for this edge case, so bugs in adult apprentice handling can go undetected until they surface in gameplay.
 
 ### Affected Components
 
-Single file: `lmcache/v1/multiprocess/custom_types.py`
+The test suite and any Python modules handling apprentice age checks and mate logic.
 
 ---
 
