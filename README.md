@@ -3,7 +3,7 @@
 **Contribution Number:** 1
 **Student:** Krishi Shah
 **Issue:** [cpinitiative/usaco-guide#6058 - Contact Form Submission - Mistake (Solution: USACO Gold 2016 December - Lasers and Mirrors)](https://github.com/cpinitiative/usaco-guide/issues/6058)
-**Status:** Phase II Complete
+**Status:** Phase III Complete
 
 ---
 
@@ -97,38 +97,44 @@ Add a visited set tracking `(direction, coordinate)` pairs. Before running the i
 
 ## Testing Strategy
 
-### Unit Tests
-
-- [ ] Test case 1: [Description]
-- [ ] Test case 2: [Description]
-- [ ] Test case 3: [Description]
-
-### Integration Tests
-
-- [ ] Integration scenario 1
-- [ ] Integration scenario 2
-
 ### Manual Testing
 
-[What you tested manually and results]
+The usaco-guide does not have an automated test suite for solution correctness. Verification was done by:
+
+- Tracing through the worst-case input manually to confirm the fix eliminates redundant coordinate list iterations
+- Checking that the `processed` set is populated correctly: each `(dir, coord)` pair is inserted on first encounter and skipped on all subsequent encounters
+- Confirming the BFS output is unchanged for simple inputs (the fix only skips redundant work, not work that affects the result)
+- Verifying MDX syntax is valid by checking no fences or tags were broken
 
 ---
 
 ## Implementation Notes
 
-### Week [X] Progress
+### Week 2 Progress
 
-[What you built this week, challenges faced, decisions made]
+**What I built:**
 
-### Week [Y] Progress
+Fixed the BFS implementation in `solutions/gold/usaco-671.mdx` for both the C++ and Python code blocks in the Implementation section.
 
-[Continue documenting as you work]
+The fix: added a `processed` set that tracks `(direction, coordinate)` pairs. Before iterating over a coordinate's point list, the code now checks whether that `(dir, coord)` pair was already handled. If yes, it skips. If no, it inserts and proceeds. This ensures each coordinate list is iterated at most once, reducing worst-case cost from O(N^2) to O(N log N) for C++ (log factor from `set<pair<int,int>>` operations) and O(N) for Python.
 
-### Code Changes
+Also updated the time complexity annotation on line 279 from `O(N)` to `O(N log N)`.
 
-- **Files modified:** [List]
-- **Key commits:** [Links to important commits]
-- **Approach decisions:** [Why you chose certain approaches]
+**Files modified:**
+- `solutions/gold/usaco-671.mdx`
+  - Added `#include <set>` to C++ includes
+  - Added `set<pair<int, int>> processed;` before the BFS while loop in C++
+  - Added `if (processed.count({dir, coord})) { continue; }` and `processed.insert({dir, coord});` before the inner for loop in C++
+  - Added `processed: set = set()` before the while loop in Python
+  - Added `if (dir, coord) not in processed` guard before each inner for loop in Python
+  - Changed `**Time Complexity:** $\mathcal{O}(N)$` to `$\mathcal{O}(N \log N)$`
+
+**Key commits:**
+- [f8b9d6d - Fix wrong time complexity in usaco-671 BFS solution](https://github.com/krishishah05/usaco-guide/commit/f8b9d6d)
+
+**Challenges faced:**
+
+The Python implementation uses a different data model than the C++ version (a `Fencepost` class, `x_lines`/`y_lines` dict naming, and module-level code instead of a function). This required adapting the fix differently for each language rather than copying the same pattern. The C++ fix uses `set<pair<int,int>>` with `.count()` and `.insert()`, while Python uses a set of tuples with `in` and `.add()`.
 
 ---
 
