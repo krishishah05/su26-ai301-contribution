@@ -3,7 +3,7 @@
 **Contribution Number:** 1
 **Student:** Krishi Shah
 **Issue:** [cpinitiative/usaco-guide#6058 - Contact Form Submission - Mistake (Solution: USACO Gold 2016 December - Lasers and Mirrors)](https://github.com/cpinitiative/usaco-guide/issues/6058)
-**Status:** Phase III Complete
+**Status:** Phase IV Complete
 
 ---
 
@@ -140,15 +140,14 @@ The Python implementation uses a different data model than the C++ version (a `F
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when submitted]
+**PR Link:** https://github.com/cpinitiative/usaco-guide/pull/6220
 
-**PR Description:** [Draft or final PR description - much of the content above can be adapted]
+**PR Description:** Fixed the BFS implementation in `solutions/gold/usaco-671.mdx` for both C++ and Python. The code claimed O(N) time complexity but had an O(N²) worst case: when multiple nodes share a coordinate and all get added to the queue, each one re-iterates the full coordinate list even though those entries are already visited. The fix adds a `processed` set tracking `(direction, coordinate)` pairs and skips the inner loop if that pair was already handled. Updated the time complexity annotation from O(N) to O(N log N). Closes #6058.
 
 **Maintainer Feedback:**
-- [Date]: [Summary of feedback received]
-- [Date]: [How you addressed it]
+- Awaiting review
 
-**Status:** [Awaiting review / Iterating / Approved / Merged]
+**Status:** Awaiting review
 
 ---
 
