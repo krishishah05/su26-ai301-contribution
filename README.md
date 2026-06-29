@@ -116,25 +116,25 @@ The usaco-guide does not have an automated test suite for solution correctness. 
 
 Fixed the BFS implementation in `solutions/gold/usaco-671.mdx` for both the C++ and Python code blocks in the Implementation section.
 
-The fix: added a `processed` set that tracks `(direction, coordinate)` pairs. Before iterating over a coordinate's point list, the code now checks whether that `(dir, coord)` pair was already handled. If yes, it skips. If no, it inserts and proceeds. This ensures each coordinate list is iterated at most once, reducing worst-case cost from O(N^2) to O(N log N) for C++ (log factor from `set<pair<int,int>>` operations) and O(N) for Python.
+The fix erases each coordinate entry from the map after processing it (`lines[dir].erase(it)` in C++, `.pop()` in Python). This guarantees each coordinate list is iterated at most once across the entire BFS, reducing worst-case cost from O(N^2) to O(N log N) with a sorted `map`.
 
-Also updated the time complexity annotation on line 279 from `O(N)` to `O(N log N)`.
+After maintainer feedback (bqi343, eysbutno), the C++ implementation was also switched from `unordered_map` to `map` to avoid hash collision worst cases, and the time complexity annotation was updated to O(N log N). The Python pop was moved to a separate line before the for loop for readability.
 
 **Files modified:**
 - `solutions/gold/usaco-671.mdx`
-  - Added `#include <set>` to C++ includes
-  - Added `set<pair<int, int>> processed;` before the BFS while loop in C++
-  - Added `if (processed.count({dir, coord})) { continue; }` and `processed.insert({dir, coord});` before the inner for loop in C++
-  - Added `processed: set = set()` before the while loop in Python
-  - Added `if (dir, coord) not in processed` guard before each inner for loop in Python
-  - Changed `**Time Complexity:** $\mathcal{O}(N)$` to `$\mathcal{O}(N \log N)$`
+  - C++: changed `#include <unordered_map>` to `#include <map>`
+  - C++: changed `unordered_map<int, vector<int>> lines[2]` to `map<int, vector<int>> lines[2]`
+  - Python: moved `.pop()` to a separate `neighbors = ...` line before each for loop
+  - Updated time complexity annotation from `O(N)` to `O(N \log N)`
 
 **Key commits:**
 - [f8b9d6d - Fix wrong time complexity in usaco-671 BFS solution](https://github.com/krishishah05/usaco-guide/commit/f8b9d6d)
+- [4aecb48 - Use erase instead of processed set, update complexity to O(N)](https://github.com/krishishah05/usaco-guide/commit/4aecb48)
+- [409915d - Switch unordered_map to map, update complexity to O(N log N), improve Python readability](https://github.com/krishishah05/usaco-guide/commit/409915d)
 
 **Challenges faced:**
 
-The Python implementation uses a different data model than the C++ version (a `Fencepost` class, `x_lines`/`y_lines` dict naming, and module-level code instead of a function). This required adapting the fix differently for each language rather than copying the same pattern. The C++ fix uses `set<pair<int,int>>` with `.count()` and `.insert()`, while Python uses a set of tuples with `in` and `.add()`.
+The main challenge was getting the time complexity right. The initial fix used a `processed` set which added O(log N) overhead per operation. Copilot flagged that, leading to the cleaner erase approach. Then bqi343 pointed out that `unordered_map` has hash collision worst cases, so switching to `map` and annotating O(N log N) was the final correct answer.
 
 ---
 
@@ -145,9 +145,11 @@ The Python implementation uses a different data model than the C++ version (a `F
 **PR Description:** Fixed the BFS implementation in `solutions/gold/usaco-671.mdx` for both C++ and Python. The code claimed O(N) time complexity but had an O(N²) worst case: when multiple nodes share a coordinate and all get added to the queue, each one re-iterates the full coordinate list even though those entries are already visited. The fix adds a `processed` set tracking `(direction, coordinate)` pairs and skips the inner loop if that pair was already handled. Updated the time complexity annotation from O(N) to O(N log N). Closes #6058.
 
 **Maintainer Feedback:**
-- Awaiting review
+- eysbutno approved, requested Python readability fix and switch to regular map with O(N log N) annotation
+- bqi343 flagged unordered_map hash collision issue
+- Both addressed in third commit (409915d)
 
-**Status:** Awaiting review
+**Status:** Merged
 
 ---
 
@@ -155,20 +157,24 @@ The Python implementation uses a different data model than the C++ version (a `F
 
 ### Technical Skills Gained
 
-[What you learned technically]
+- Learned how BFS time complexity can be deceptive: the `dist` check prevents revisiting nodes, but without erasing processed coordinate lists, you can still hit O(N^2) by re-iterating the same list from multiple queue entries.
+- Learned the tradeoff between `unordered_map` and `map` in competitive programming: unordered_map has O(1) average but can degrade with hash collisions, while map gives a reliable O(log N) per operation. For this problem, `map` + erase gives O(N log N) worst case with no hidden constants.
+- Got hands-on experience with the full open source contribution workflow: forking, branching, opening a PR, responding to review comments, and pushing follow-up commits.
+- Learned how to read and navigate a large real-world codebase (usaco-guide) and make a targeted change without breaking unrelated content.
 
 ### Challenges Overcome
 
-[What was hard and how you solved it]
+The hardest part was getting the time complexity annotation exactly right. My first fix used a `processed` set to track `(direction, coordinate)` pairs, which worked but added O(log N) overhead per insertion. A reviewer (Copilot) flagged it, so I switched to erasing the map entry directly after processing, which is both simpler and faster. Then a second reviewer (bqi343) pointed out that `unordered_map` itself has hash collision worst cases, so I switched to a regular `map` and updated the annotation to O(N log N). Each round of feedback pushed the solution to be more correct and cleaner.
 
 ### What I'd Do Differently Next Time
 
-[Reflection on your process]
+I would read the maintainer comments on similar past PRs before writing my first version. The erase approach was actually more natural than the set approach, and I might have started there if I had looked at how the codebase handled similar patterns. I also would have caught the `unordered_map` issue earlier by thinking through all the data structure choices upfront instead of just focusing on the algorithmic fix.
 
 ---
 
 ## Resources Used
 
-- [Link to helpful documentation]
-- [Tutorial or Stack Overflow post that helped]
-- [GitHub issues or discussions that helped]
+- [USACO Guide Contributing Docs](https://github.com/cpinitiative/usaco-guide/blob/master/CONTRIBUTING.md)
+- [USACO Gold 2016 December Lasers and Mirrors Official Analysis](http://www.usaco.org/current/data/sol_lasers_gold_dec16.html)
+- [cpinitiative/usaco-guide Issue #6058](https://github.com/cpinitiative/usaco-guide/issues/6058)
+- [Merged PR #6220](https://github.com/cpinitiative/usaco-guide/pull/6220)
